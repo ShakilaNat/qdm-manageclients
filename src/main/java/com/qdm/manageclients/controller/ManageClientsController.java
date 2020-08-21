@@ -10,12 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qdm.manageclients.dto.ClientReportResponse;
-import com.qdm.manageclients.dto.IssueDto;
-import com.qdm.manageclients.dto.IssueListResponse;
 import com.qdm.manageclients.dto.IssueStatus;
-import com.qdm.manageclients.dto.RecommendationsDto;
-import com.qdm.manageclients.dto.ReportsDto;
 import com.qdm.manageclients.response.ResponseInfo;
 import com.qdm.manageclients.service.ManageClientService;
 
