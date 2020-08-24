@@ -72,7 +72,7 @@ public class ManageClientService {
 	
 	public ResponseInfo getProductRatings() {
 		List<ProductRatingDto> productRatings = new ArrayList<ProductRatingDto>();
-		productRatings.add(new ProductRatingDto("Product review","","","","2","08-24-2020"));
+		productRatings.add(new ProductRatingDto("Product review","","5","","2","08-24-2020"));
 		return ResponseInfo.builder().status("Success").status_code("200").message("")
 				.data(ProductRatingResponse.builder().ratings_list(productRatings).build()).build();
 
