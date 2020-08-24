@@ -5,10 +5,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.qdm.manageclients.dto.ClientActivityDto;
+import com.qdm.manageclients.dto.ClientActivityResponse;
+import com.qdm.manageclients.dto.ClientActivitySummaryDto;
+import com.qdm.manageclients.dto.ClientInfoDto;
 import com.qdm.manageclients.dto.ClientReportResponse;
 import com.qdm.manageclients.dto.Equipment;
 import com.qdm.manageclients.dto.IssueDto;
 import com.qdm.manageclients.dto.IssueListResponse;
+import com.qdm.manageclients.dto.ProductRatingDto;
+import com.qdm.manageclients.dto.ProductRatingResponse;
 import com.qdm.manageclients.dto.Products;
 import com.qdm.manageclients.dto.RecommendationsDto;
 import com.qdm.manageclients.dto.ReportsDto;
@@ -61,6 +67,31 @@ public class ManageClientService {
 		productList.add(new Products("Physio -Ultra (Monthly)", "Get Everything just cost of Physio ", "123"));
 		return ResponseInfo.builder().status("Success").status_code("200").message("")
 				.data(RecommendationsDto.builder().equipments(equipmentList).products(productList).build()).build();
+
+	}
+	
+	public ResponseInfo getProductRatings() {
+		List<ProductRatingDto> productRatings = new ArrayList<ProductRatingDto>();
+		productRatings.add(new ProductRatingDto("Product review","","","","2","08-24-2020"));
+		return ResponseInfo.builder().status("Success").status_code("200").message("")
+				.data(ProductRatingResponse.builder().ratings_list(productRatings).build()).build();
+
+	}
+	
+	public ResponseInfo getActivitySummary() {
+		ClientInfoDto clientInfo=new ClientInfoDto("Zero ", "male", "21", "9876543210", "87.09", "78.90");
+		ClientActivitySummaryDto clientSummary=new ClientActivitySummaryDto("1", "test", "test", "08-24-2020", "", "This assessment is to help", clientInfo);
+		return ResponseInfo.builder().status("Success").status_code("200").message("")
+				.data(clientSummary).build();
+
+	}
+	
+	public ResponseInfo getClientActivity() {
+		ClientActivityDto clientInfo=new ClientActivityDto("Zero ", "male", "21","");
+		List<ClientActivityDto> activityList=new ArrayList<ClientActivityDto>();
+		activityList.add(clientInfo);
+		return ResponseInfo.builder().status("Success").status_code("200").message("")
+				.data(ClientActivityResponse.builder().activities(activityList)).build();
 
 	}
 
