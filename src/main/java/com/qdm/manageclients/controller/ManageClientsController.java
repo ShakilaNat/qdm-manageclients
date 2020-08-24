@@ -28,7 +28,7 @@ public class ManageClientsController {
 
 	@GetMapping("/reports/get")
 	public ResponseEntity<?> getReports(@RequestParam String clientId) {
-		log.info("Reports for Client ID "+clientId);
+		log.info("Reports for Client ID " + clientId);
 		ResponseInfo responseinfo = manageClientService.getClientReport();
 		return new ResponseEntity<Object>(responseinfo, HttpStatus.OK);
 	}
@@ -60,11 +60,13 @@ public class ManageClientsController {
 		ResponseInfo responseinfo = manageClientService.getProductRatings();
 		return new ResponseEntity<Object>(responseinfo, HttpStatus.OK);
 	}
+
 	@GetMapping("/activities/summary/get")
 	public ResponseEntity<?> getActivitySummary() {
 		ResponseInfo responseinfo = manageClientService.getActivitySummary();
 		return new ResponseEntity<Object>(responseinfo, HttpStatus.OK);
 	}
+
 	@GetMapping("/activities/get")
 	public ResponseEntity<?> getActivity() {
 		ResponseInfo responseinfo = manageClientService.getClientActivity();
