@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientActivitySummaryDto {
-	private String activity_id;
+	private int activity_id;
 	private String activity_name;
 	private String client_name;
 	private String date_time;

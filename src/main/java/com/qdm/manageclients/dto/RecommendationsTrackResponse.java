@@ -11,13 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientInfoDto {
-
-    private String client_name;
-    private String gender;
-    private int age;
-    private String mobile_no;
-    private String latitude;
-    private String longitude;
- 
+public class RecommendationsTrackResponse {
+	private String product_name;
+	private int product_id;
+	private String product_price;
+	private String current_status;
+	private List<TimeLine> timeline;
 }
