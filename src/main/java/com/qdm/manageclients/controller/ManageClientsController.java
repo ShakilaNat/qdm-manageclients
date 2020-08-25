@@ -39,9 +39,13 @@ public class ManageClientsController {
 		return new ResponseEntity<Object>(responseinfo, HttpStatus.OK);
 	}
 
-	@PutMapping("/issues/details/get")
-	public List<String> getDetailsList(@RequestBody IssueStatus issueStatus) {
-		return null;
+	@PutMapping("/issues/status/modify")
+	public ResponseEntity<?> getDetailsList(@RequestBody IssueStatus issueStatus) {
+		ResponseInfo responseinfo = new ResponseInfo();
+		responseinfo.setStatus_code("200");
+		responseinfo.setStatus("Success");
+		responseinfo.setMessage("");
+		return new ResponseEntity<Object>(responseinfo, HttpStatus.OK);
 	}
 
 	@GetMapping("/recommendations/details/get")
