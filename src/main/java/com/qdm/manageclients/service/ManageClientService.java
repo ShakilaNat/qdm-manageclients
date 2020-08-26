@@ -1,9 +1,10 @@
 package com.qdm.manageclients.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.naming.TimeLimitExceededException;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.qdm.manageclients.dto.ClientActivitySummaryDto;
 import com.qdm.manageclients.dto.ClientInfoDto;
 import com.qdm.manageclients.dto.ClientReportResponse;
 import com.qdm.manageclients.dto.Equipment;
+import com.qdm.manageclients.dto.IssueDetailDto;
 import com.qdm.manageclients.dto.IssueDto;
 import com.qdm.manageclients.dto.IssueListResponse;
 import com.qdm.manageclients.dto.ProductRatingDto;
@@ -41,11 +43,21 @@ public class ManageClientService {
 				.build();
 	}
 
+	public ResponseInfo getIssueDetail() {
+
+		return ResponseInfo.builder().status("Success").status_code("200").message("")
+				.data(IssueDetailDto.builder().client_phone_no("9876543210").issue_id("#ICG12089")
+						.issued_product("Physio-ultra(Monthly)").issued_client_name("")
+						.issued_time("26-08-2020 17:02:09").issue_type("")
+						.issue_title("Having trouble with access service").build())
+				.build();
+	}
+
 	public ResponseInfo getIssueList() {
 		int openCount = 0, resolvedCount = 0, pendingCount = 0;
 		List<IssueDto> issueList = new ArrayList<IssueDto>();
 		issueList
-		.add(new IssueDto("#ICG1245", "Having trouble with access service", "Physio -Ultra (Monthly)", "Open"));
+				.add(new IssueDto("#ICG1245", "Having trouble with access service", "Physio -Ultra (Monthly)", "Open"));
 		issueList.add(
 				new IssueDto("#ICG1246", "Having trouble with access service", "Physio -Ultra (Monthly)", "Resolved"));
 		for (IssueDto dto : issueList) {
@@ -92,24 +104,63 @@ public class ManageClientService {
 
 	}
 
-	public ResponseInfo getClientActivity() {
+	public ResponseInfo getClientActivity(String event) {
+
 		ClientActivityDto clientInfo = new ClientActivityDto(1, "Pre-Assessment tips to Mia", "Mia Queen",
-				"08-24-2020");
+				"26-08-2020 17:02:09");
+		ClientActivityDto clientInfo1 = new ClientActivityDto(2, "Pre-Assessment tips to Mia2", "Mia Queen",
+				"26-08-2020 15:02:09");
+		ClientActivityDto clientInfo2 = new ClientActivityDto(3, "Pre-Assessment tips to Mia3", "Mia Queen",
+				"25-08-2020 17:02:09");
 		List<ClientActivityDto> activityList = new ArrayList<ClientActivityDto>();
 		activityList.add(clientInfo);
-		return ResponseInfo.builder().status("Success").status_code("200").message("")
-				.data(ClientActivityResponse.builder().activities(activityList).build()).build();
+		activityList.add(clientInfo1);
+		activityList.add(clientInfo2);
+		if (event == null) {
+			return ResponseInfo.builder().status("Success").status_code("200").message("")
+					.data(ClientActivityResponse.builder().activities(activityList).build()).build();
+		}
+		List<ClientActivityDto> pastActivityList = new ArrayList<ClientActivityDto>();
+		List<ClientActivityDto> upcomingActivityList = new ArrayList<ClientActivityDto>();
+		String date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
+		SimpleDateFormat sdfo = new SimpleDateFormat("yyyy-MM-dd");
 
+		for (ClientActivityDto activity : activityList) {
+			try {
+				Date d1 = sdfo.parse(date);
+				Date d2 = sdfo.parse(activity.getDate_time());
+				if (d1.compareTo(d2) > 0) {
+					pastActivityList.add(activity);
+				} else {
+					upcomingActivityList.add(activity);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if ("past".equals(event)) {
+			return ResponseInfo.builder().status("Success").status_code("200").message("")
+					.data(ClientActivityResponse.builder().activities(pastActivityList).build()).build();
+
+		} else if ("upcoming".equals(event)) {
+			return ResponseInfo.builder().status("Success").status_code("200").message("")
+					.data(ClientActivityResponse.builder().activities(upcomingActivityList).build()).build();
+
+		}
+		return null;
+	
 	}
 
 	public ResponseInfo getRecommendedProductList() {
 		RecommendedProductsDto recommendedProduct = new RecommendedProductsDto("Zerostat spacer", 1, "MYR 432",
 				"Recommended on July 04");
-		//		RecommendedProductsResponse
+		// RecommendedProductsResponse
 		List<RecommendedProductsDto> recommendedProductList = new ArrayList<RecommendedProductsDto>();
 		recommendedProductList.add(recommendedProduct);
 		return ResponseInfo.builder().status("Success").status_code("200").message("")
-				.data(RecommendedProductsResponse.builder().recommended_products_list(recommendedProductList).build()).build();
+				.data(RecommendedProductsResponse.builder().recommended_products_list(recommendedProductList).build())
+				.build();
 
 	}
 
